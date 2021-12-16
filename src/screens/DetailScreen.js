@@ -1,6 +1,5 @@
 import React from "react";
-import {  Button, Image, StyleSheet, Text, View } from "react-native";
-import { ScrollView } from "react-native-gesture-handler";
+import {  Button, Image, StyleSheet, Text, View ,ScrollView} from "react-native";
 import { useSelector } from "react-redux";
 import COLORS from "../constants/Colors";
 import DIMENS from "../constants/Dimens";

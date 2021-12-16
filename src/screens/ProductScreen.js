@@ -1,7 +1,8 @@
 import React from "react";
 import { FlatList, StyleSheet, Text } from "react-native";
-import { useDispatch } from "react-redux";
-import { useSelector } from "react-redux";
+import { HeaderButtons, Item } from "react-navigation-header-buttons";
+import { useDispatch ,useSelector} from "react-redux";
+import CustomHeaderButton from "../components/CustomHeaderButton";
 import ProductItem from "../components/Productitem";
 import DIMENS from "../constants/Dimens";
 import { addToCart } from "../store/actions/cartAction";
@@ -25,7 +26,6 @@ const ProductScreen=props=>{
                             props.navigation.navigate('DetailScreenNav',{'productid':itemData.item.id,'productTitle':itemData.item.title});
                         }}
                         onAddToCart= {()=>{
-                            console.log(itemData.item)
                             dispathAddCart(addToCart(itemData.item));
                         }}
                     />}
@@ -35,8 +35,17 @@ const ProductScreen=props=>{
 }
 
 
-ProductScreen.navigationOptions={
-    headerTitle:"All Products"
+ProductScreen.navigationOptions=navData=>{
+    return{
+        headerTitle:"All Products",
+        headerRight:<HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
+            <Item 
+            iconName="md-cart" 
+            title="Cart" 
+            onPress={()=>navData.navigation.navigate('CartScreenNav')} />
+        </HeaderButtons>
+   }
+ 
 }
 
 

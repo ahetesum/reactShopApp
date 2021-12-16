@@ -21,7 +21,7 @@ const ProductItem=props=>{
                         <Button style={styles.viewDetails} title="View Details" onPress={props.onViewDetails}/>
                         <Button style={styles.addToCart} title="Add To Cart" onPress={props.onAddToCart}/>
                     </View>
-                
+            
                 </View>
             </View>
         </TouchableComp>
