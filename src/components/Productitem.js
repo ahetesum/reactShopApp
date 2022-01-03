@@ -2,6 +2,7 @@ import React from "react";
 import { Image, StyleSheet, View,Text, Button, TouchableOpacity, Platform, TouchableNativeFeedbackBase, TouchableNativeFeedback } from "react-native";
 import COLORS from "../constants/Colors";
 import DIMENS from "../constants/Dimens";
+import CardView from "./CardView";
 
 
 const ProductItem=props=>{
@@ -11,20 +12,20 @@ const ProductItem=props=>{
         TouchableComp= TouchableNativeFeedback;    
 
     return(
-        <TouchableComp onPress={props.onViewDetails} >
+        <CardView>
+        <TouchableComp onPress={props.onSelect} >
             <View style={styles.container}> 
                 <Image style={styles.image} source={{uri:props.product.imageUrl}} />
                 <View style={styles.content}>
                     <Text style={styles.titleText}>{props.product.title}</Text>
                     <Text style={styles.priceText}>${props.product.price}</Text>
                     <View style={styles.acrtionContainer}>
-                        <Button style={styles.viewDetails} title="View Details" onPress={props.onViewDetails}/>
-                        <Button style={styles.addToCart} title="Add To Cart" onPress={props.onAddToCart}/>
+                        {props.children}
                     </View>
-            
                 </View>
             </View>
         </TouchableComp>
+        </CardView>
     );
 };
 

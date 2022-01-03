@@ -1,4 +1,6 @@
+import Product from "../../models/product";
 import PRODUCTS from "../../utils/dummy-data";
+import { CREATE_PRODUCT, DELETE_PRODUCT, UPDATE_PRODUCT } from "../actions/productAction";
 
 const initialState={
     availableProducts:PRODUCTS,
@@ -6,10 +8,55 @@ const initialState={
 };
 
 const productReducer=(state=initialState,action)=>{
-    // switch(action.type)
-    // {
+    switch(action.type)
+    {
+        case CREATE_PRODUCT:
+            const newProduct = new Product(
+                new Date().toString(),
+                action.productData.title,
+                action.productData.description,
+                action.productData.price,
+                action.productData.imageUrl,
+                'u1'
+            );
 
-    // }
+            return{ 
+                ...state, 
+                availableProducts: state.availableProducts.concat(newProduct),
+                userProducts:state.userProducts.concat(newProduct)
+            }
+
+            case UPDATE_PRODUCT:
+
+                const updatedProduct = new Product(
+                    action.productData.id,                    
+                    action.productData.title,
+                    action.productData.description,
+                    action.productData.price,
+                    action.productData.imageUrl,
+                    'u1'
+                );
+                const availableProductIndex= state.availableProducts.findIndex(p=>p.id===action.productData.id)
+                const userProductIndex= state.userProducts.findIndex(p=>p.id===action.productData.id)
+                const availableProductUpdated= [...state.availableProducts];
+                const userProductUpdated= [...state.userProducts];
+                availableProductUpdated[availableProductIndex] = updatedProduct;
+                userProductUpdated[userProductIndex] = updatedProduct;
+                
+                return{ 
+                    ...state, 
+                    availableProducts: availableProductUpdated,
+                    userProducts:userProductUpdated
+                }
+
+        case DELETE_PRODUCT:
+            const pid= action.pid 
+            return{ 
+                ...state, 
+                availableProducts:state.availableProducts.filter(p=>p.id!==pid),
+                userProducts:state.userProducts.filter(p=>p.id!==pid)
+            }
+    }
     return state;
 };
 

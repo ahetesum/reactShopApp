@@ -1,16 +1,17 @@
 import React from "react";
 import {  Button, Image, StyleSheet, Text, View ,FlatList} from "react-native";
-import { color } from "react-native-reanimated";
 import { useDispatch, useSelector } from "react-redux";
-import CartItemList from "../components/CartItemList";
+import CartListItem from "../components/CartListItem";
 import COLORS from "../constants/Colors";
 import DIMENS from "../constants/Dimens";
-import { addToCart } from "../store/actions/cartAction";
+import { addToCart, removeFromCart } from "../store/actions/cartAction";
+import { addOrder } from "../store/actions/orderAction";
 
 
 const CartScreen=props=>{
     const cart= useSelector(state=>state.cart);
     const dispathAddCart=useDispatch();
+    const dispatchAddOrder= useDispatch();
     const products= useSelector(state=>state.products.availableProducts);  
 
     const noOfProducts= Object.keys(cart.items).length;
@@ -29,13 +30,20 @@ const CartScreen=props=>{
 
       const addIncrementCart=(id)=>
       {
-        console.log(id)
         let product = products.find(p=>p.id===id);
         dispathAddCart(addToCart(product));
 
       }
+
+      const removeOrDecrementCart=(id)=>
+      {
+        dispathAddCart(removeFromCart(id));
+      } 
       const onOrderPlaced=()=>
-      {}
+      {
+        dispatchAddOrder(addOrder(cartList,cart.totalAmount));
+        props.navigation.pop()
+      }
 
     return (
             <View style={styles.container}>
@@ -45,11 +53,19 @@ const CartScreen=props=>{
                         <Text style={styles.titleText}>Total Amount: <Text style={{color:COLORS.accentColor}}>{cart.totalAmount.toFixed(2)} $</Text></Text>
                     </View>
                     <View style={styles.cartList}>
-                        <CartItemList  data={cartList} addToCart={addIncrementCart} />
+                        <FlatList 
+                            data= {cartList}
+                            keyExtractor={item => item.id}    
+                            renderItem={(itemData)=>
+                                <CartListItem item={itemData.item}  isDetails={true}
+                                    addToCart={()=>addIncrementCart(itemData.item.id)}
+                                    removeFromCart={()=> removeOrDecrementCart(itemData.item.id)}
+                                    />}
+                            />
                     </View>
                 </View>
                 <View style={styles.addToCart}>
-                    <Button  title="Place Order" onPress={onOrderPlaced}/>
+                    <Button  title="Place Order" onPress={onOrderPlaced} disabled={cartList.length==0} />
                 </View>
             </View>
         );
@@ -113,7 +129,7 @@ const styles= StyleSheet.create({
         shadowOpacity: 0.8,
         shadowRadius: 2, 
         borderColor:COLORS.dividerColor,
-        border:1,
+        borderWidth:1,
         elevation:DIMENS.paddingSm,
         backgroundColor:COLORS.whiteColor,
         borderTopLeftRadius:DIMENS.paddingLR,

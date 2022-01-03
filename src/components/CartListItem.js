@@ -1,17 +1,18 @@
 
 import React from "react";
-import { FlatList, Text,Image,StyleSheet,View,TouchableOpacity} from "react-native";
+import { Text,Image,StyleSheet,View,TouchableOpacity} from "react-native";
 import COLORS from "../constants/Colors";
 import { Ionicons } from "@expo/vector-icons";
 import DIMENS from "../constants/Dimens";
 
 
 
-const CartItemList=props=>{
+const CartListItem=props=>{
 
-    const getItem=({item})=>
-    {
-        return (
+    const {item, isDetails} = props;
+
+    console.log(item);
+ return (
             <View style={styles.cartContainer}>
                 <View style={styles.titleContainer}>
                     <Image style={styles.image} source={{uri: item.imageUrl}} />
@@ -22,25 +23,16 @@ const CartItemList=props=>{
               
                 </View>
                 <View style={styles.quntityContainer} >
-                        <TouchableOpacity onPress={props.addToCart(item.id)} > 
+                       {isDetails && <TouchableOpacity  onPress={props.addToCart} > 
                             <Ionicons style={{marginHorizontal:10}} name="add-outline" color={COLORS.blackColor} size={22}/>
-                        </TouchableOpacity>
+                        </TouchableOpacity>}
                         <Text style={{fontSize:21}} >{item.quantity}</Text>
-                        <TouchableOpacity>
+                       {isDetails &&  <TouchableOpacity onPress={props.removeFromCart} >
                             <Ionicons style={{marginLeft:10}} name="remove-outline" color={COLORS.blackColor} size={22}/>
-                        </TouchableOpacity>
+                        </TouchableOpacity>}
                     </View>
             </View>
         );
-    }
-
-
-    return(
-        <FlatList 
-            data={props.data}
-            renderItem={getItem}
-        />
-    );
 };
 
 
@@ -105,4 +97,4 @@ const styles= StyleSheet.create({
 });
 
 
-export default CartItemList;
+export default CartListItem;

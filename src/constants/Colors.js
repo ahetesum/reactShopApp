@@ -13,7 +13,6 @@ const COLORS = {
     infoColor:'#ffff00',
     blackColor:'#000000',
     whiteColor:'#FFFFFF',
-
 };
 
 export default COLORS;
