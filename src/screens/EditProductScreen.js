@@ -41,10 +41,13 @@ const formReducer = (state, action) => {
 };
 
 const EditProductScreen = props => {
-  const prodId = props.navigation.getParam('productId');
+  const prodId = props.navigation.getParam('pid');
+  console.log(prodId)
+
   const editedProduct = useSelector(state =>
     state.products.userProducts.find(prod => prod.id === prodId)
   );
+  console.log(editedProduct)
   const dispatch = useDispatch();
 
   const [formState, dispatchFormState] = useReducer(formReducer, {
@@ -76,7 +79,8 @@ const EditProductScreen = props => {
           prodId,
           formState.inputValues.title,
           formState.inputValues.description,
-          formState.inputValues.imageUrl
+          formState.inputValues.imageUrl,
+          formState.inputValues.price
         )
       );
     } else {
@@ -135,18 +139,19 @@ const EditProductScreen = props => {
           initiallyValid={!!editedProduct}
           required
         />
-        {editedProduct ? null : (
+      
           <InputEdit
             id="price"
             label="Price"
             errorText="Please enter a valid price!"
             keyboardType="decimal-pad"
             returnKeyType="next"
+            initialValue={editedProduct ? editedProduct.price : ''}
             onInputChange={inputChangeHandler}
             required
             min={0.1}
           />
-        )}
+
         <InputEdit
           id="description"
           label="Description"

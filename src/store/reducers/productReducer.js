@@ -1,6 +1,6 @@
 import Product from "../../models/product";
 import PRODUCTS from "../../utils/dummy-data";
-import { CREATE_PRODUCT, DELETE_PRODUCT, UPDATE_PRODUCT } from "../actions/productAction";
+import { CREATE_PRODUCT, DELETE_PRODUCT, SET_PRODUCT, UPDATE_PRODUCT } from "../actions/productAction";
 
 const initialState={
     availableProducts:PRODUCTS,
@@ -10,9 +10,16 @@ const initialState={
 const productReducer=(state=initialState,action)=>{
     switch(action.type)
     {
+        case SET_PRODUCT:
+            return{ 
+                ...state, 
+                availableProducts: action.products,
+                userProducts:action.products,
+            }
+
         case CREATE_PRODUCT:
             const newProduct = new Product(
-                new Date().toString(),
+                action.productData.id,                
                 action.productData.title,
                 action.productData.description,
                 action.productData.price,
