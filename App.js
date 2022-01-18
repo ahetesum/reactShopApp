@@ -10,14 +10,20 @@ import AppLoading from 'expo-app-loading';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import cartReducer from './src/store/reducers/cartReducer';
 import orderReducer from './src/store/reducers/orderReducer';
+import authReducer from './src/store/reducers/authReducer';
+import COLORS from './src/constants/Colors';
 
 
 const rootReducer= combineReducers({
   products: productReducer,
   cart: cartReducer,
-  orders:orderReducer
+  orders:orderReducer,
+  auth:authReducer,
 });
-const store = createStore(rootReducer,applyMiddleware(ReduxThunk),composeWithDevTools());
+const store = createStore(
+                          rootReducer,
+                          applyMiddleware(ReduxThunk),
+                          composeWithDevTools());
 
 const fetchFonts=()=>{
   return Font.loadAsync({
@@ -46,7 +52,7 @@ const  App=()=> {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: COLORS.whiteColor,
     alignItems: 'center',
     justifyContent: 'center',
   },

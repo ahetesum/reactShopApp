@@ -3,8 +3,8 @@ import PRODUCTS from "../../utils/dummy-data";
 import { CREATE_PRODUCT, DELETE_PRODUCT, SET_PRODUCT, UPDATE_PRODUCT } from "../actions/productAction";
 
 const initialState={
-    availableProducts:PRODUCTS,
-    userProducts:PRODUCTS.filter(p=>p.ownerId==='u1')
+    availableProducts:[],
+    userProducts:[],
 };
 
 const productReducer=(state=initialState,action)=>{
@@ -14,7 +14,7 @@ const productReducer=(state=initialState,action)=>{
             return{ 
                 ...state, 
                 availableProducts: action.products,
-                userProducts:action.products,
+                userProducts:action.userProducts,
             }
 
         case CREATE_PRODUCT:
@@ -24,8 +24,7 @@ const productReducer=(state=initialState,action)=>{
                 action.productData.description,
                 action.productData.price,
                 action.productData.imageUrl,
-                'u1'
-            );
+                action.productData.ownerId,            );
 
             return{ 
                 ...state, 
@@ -41,8 +40,9 @@ const productReducer=(state=initialState,action)=>{
                     action.productData.description,
                     action.productData.price,
                     action.productData.imageUrl,
-                    'u1'
-                );
+                    action.productData.ownerId,            
+                    );
+                
                 const availableProductIndex= state.availableProducts.findIndex(p=>p.id===action.productData.id)
                 const userProductIndex= state.userProducts.findIndex(p=>p.id===action.productData.id)
                 const availableProductUpdated= [...state.availableProducts];

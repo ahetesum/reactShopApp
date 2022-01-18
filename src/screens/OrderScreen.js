@@ -1,15 +1,21 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {  StyleSheet, Text, View ,FlatList} from "react-native";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
-import {  useSelector } from "react-redux";
+import {useSelector, useDispatch } from "react-redux";
 import CustomHeaderButton from "../components/CustomHeaderButton";
 import OrderListItem from "../components/OrderListItem";
 import COLORS from "../constants/Colors";
 import DIMENS from "../constants/Dimens";
+import { setOrders } from "../store/actions/orderAction";
 
 const OrderScreen=props=>{
-
     const orders= useSelector(state=>state.orders.orders)
+    const orderDispatch= useDispatch();
+
+    useEffect(()=>{
+        orderDispatch(setOrders())
+    },[orderDispatch]);
+
     console.log(orders)
     return(
         <View style={styles.container}>
