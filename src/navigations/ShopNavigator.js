@@ -1,7 +1,7 @@
 import React from 'react';
 import { Ionicons } from '@expo/vector-icons';
 import { createAppContainer, createSwitchNavigator } from 'react-navigation';
-import { createDrawerNavigator } from 'react-navigation-drawer';
+import { createDrawerNavigator, DrawerItems } from 'react-navigation-drawer';
 import { createStackNavigator } from 'react-navigation-stack'
 import COLORS from '../constants/Colors';
 import CartScreen from '../screens/CartScreen';
@@ -11,6 +11,10 @@ import ProductScreen from '../screens/ProductScreen';
 import UserProductScreen from '../screens/UserProductScreen';
 import EditProductScreen from '../screens/EditProductScreen';
 import LogInScreen from '../screens/LogInScreen';
+import LandingScreen from '../screens/LandingScreen';
+import { Button, SafeAreaView, View } from 'react-native';
+import { useDispatch } from 'react-redux';
+import { logout } from '../store/actions/authAction';
 
 
 
@@ -107,11 +111,30 @@ const ShopDrawerNavigation = createDrawerNavigator({
 {
     contentOptions: {
         activeTintColor:COLORS.primaryColor,
-    }
+    },
+    contentComponent: props => {
+        const dispatch = useDispatch();
+        return (
+          <View style={{ flex: 1, paddingTop: 20 }}>
+            <SafeAreaView forceInset={{ top: 'always', horizontal: 'never' }}>
+              <DrawerItems {...props} />
+              <Button
+                title="Logout"
+                color={COLORS.warningColor}
+                onPress={() => {
+                  dispatch(logout());
+                  props.navigation.navigate('LoginNav');
+                }}
+              />
+            </SafeAreaView>
+          </View>
+        );
+      }
 }
 );
 
 const ShapMainNavigation = createSwitchNavigator({
+    Startup: LandingScreen,
     LoginNav: AuthNavigation,
     ShopDrawNav:ShopDrawerNavigation,
 });

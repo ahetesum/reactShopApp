@@ -19,10 +19,8 @@ const authReducer=(state=initialState,action)=>{
                 userId: action.userId,
             }
         case LOG_OUT:
-            return {
-                token: null,
-                userId: null,
-            }
+            console.log(state)
+            return initialState
         default :
             return state;
     }

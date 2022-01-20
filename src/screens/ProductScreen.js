@@ -28,7 +28,6 @@ const ProductScreen=props=>{
 
     const loadProducts= useCallback(async()=>{
         try{
-            console.log('LOAD Product')
             setIsError(false);
             setIsLoading(true);
             await dispathAddCart(setProducts())
